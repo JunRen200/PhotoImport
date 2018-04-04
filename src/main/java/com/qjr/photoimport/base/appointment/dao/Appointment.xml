@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qjr.photoimport.base.appointment.dao.AppointmentDao">
+
+    <resultMap type="com.qjr.photoimport.base.appointment.entity.Appointment"
+               id="appoin">
+        <result column="book_id" property="bookId"/>
+        <result column="student_id" property="studentId"/>
+        <result column="appoint_time" property="appointTime"/>
+        <collection property="book" ofType="com.qjr.photoimport.base.book.entity.Book">
+            <id column="bookId" property="bookId"/>
+            <result column="name" property="name"/>
+            <result column="number" property="number"/>
+        </collection>
+    </resultMap>
+
+
+    <insert id="inserAppointment">
+		insert ignore into
+		appointment(book_id,student_id)
+		values(#{bookId},#{studentId})
+	</insert>
+
+
+    <select id="queryByKeyWithBook" resultMap="appoin">
+		select
+		a.book_id,
+		a.student_id,
+		a.appoint_time,
+		b.book_id "bookId",
+		b.name "name",
+		b.number "number"
+		from
+		appointment a
+		left join book b on a.book_id=b.book_id
+		where a.book_id=#{bookId}
+	</select>
+
+    <select id="queryByKeyWithBook111" resultMap="appoin">
+        select
+        a.book_id,
+        a.student_id,
+        a.appoint_time,
+        b.book_id "book.bookId",
+        b.name "book.name",
+        b.number "book.number"
+        from
+        appointment a
+        left join book b on a.book_id=b.book_id
+        where a.book_id=#{bookId}
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qjr.photoimport.base.book.dao.BookDao">
+    <select id="queryById" resultType="map" parameterType="String">
+        SELECT book_id,
+               name,
+               number
+        FROM 
+               book
+        where  
+               book_id = #{id}       
+    </select>
+
+    <select id="queryAll" resultType="com.qjr.photoimport.base.book.entity.Book">
+        SELECT book_id,
+               name,
+               number
+        FROM
+              book
+        ORDER BY 
+              book_id
+        LIMIT #{offset},#{limit} 
+    
+    </select>
+
+    <insert id="insertBook" useGeneratedKeys="true">
+        insert ignore into book(book_id,name,number)
+            values(#{bookId},#{name},#{number})
+    </insert>
+</mapper>
